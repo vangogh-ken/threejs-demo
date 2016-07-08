@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Three</title>
+  <script type="text/javascript" src="three.min.js"></script>
+</head>
+<body>
+<div id="WebGLCanvas"></div>
+
+<script type="text/javascript">
+	// Global scene object 
+	 var scene; 
+	  var camera; 
+	  //var renderer;
+	  
+	  var cubeMesh;
+	  
+	  // Initialize the scene 
+	  initializeScene(); 
+	  
+	  // Render the scene (map the 3D world to the 2D scene) 
+	  renderScene(); 
+	 
+	  animateScene();
+	  
+	    // x, y and z rotation 
+             var xRotation = 0.0; 
+             var yRotation = 0.0; 
+            var zRotation = 0.0; 
+	  
+	  /** 
+	   * Initialze the scene. 
+	  */ 
+	  function initializeScene(){ 
+		 renderer = new THREE.WebGLRenderer({antialias:true}); 
+		 // Set the background color of the renderer to black, with full opacity 
+		  renderer.setClearColor(0x000000, 1); 
+
+		 // Get the size of the inner window (content area) to create a full size renderer 
+		  canvasWidth = window.innerWidth; 
+		  canvasHeight = window.innerHeight; 
+		  // Set the renderers size to the content areas size 
+		 renderer.setSize(canvasWidth, canvasHeight); 
+
+		  // Get the DIV element from the HTML document by its ID and append the renderers DOM 
+		  document.getElementById("WebGLCanvas").appendChild(renderer.domElement); 
+
+		  // Create the scene, in which all objects are stored (e. g. camera, lights, 
+		  // geometries, ...) 
+		  scene = new THREE.Scene(); 
+
+		 // After definition, the camera has to be added to the scene. 
+		 camera = new THREE.PerspectiveCamera(45, canvasWidth / canvasHeight, 1, 100); 
+		 camera.position.set(0, 0, 10); 
+		 camera.lookAt(scene.position); 
+		 scene.add(camera); 
+
+		 //w h d
+		  var boxGeometry = new THREE.BoxGeometry(1.5, 1.5, 1.5); 
+		  
+		  var neheTexture = new THREE.TextureLoader().load("img/6.gif"); 
+
+			var boxMaterial = new THREE.MeshBasicMaterial({ 
+                     map:neheTexture, 
+                     side:THREE.DoubleSide 
+                 }); 
+  
+                // Create a mesh and insert the geometry and the material. Translate the whole mesh 
+                 // by 1.5 on the x axis and by 4 on the z axis and add the mesh to the scene. 
+                 boxMesh = new THREE.Mesh(boxGeometry, boxMaterial); 
+                 boxMesh.position.set(0.0, 0.0, 4.0); 
+                scene.add(boxMesh); 
+	} 
+	
+	function animateScene(){ 
+		xRotation += 0.03; 
+         yRotation += 0.02; 
+        zRotation += 0.04; 
+		 boxMesh.rotation.set(xRotation, yRotation, zRotation); 
+		
+		requestAnimationFrame(animateScene); 
+	    renderScene(); 
+	}
+
+	 /** 
+	  * Render the scene. Map the 3D world to the 2D screen.
+	  */ 
+	 function renderScene(){ 
+		renderer.render(scene, camera); 
+	} 
+</script>
+
+</body>
+</html>
