@@ -81,7 +81,7 @@ var particleMaterial;
 				transformControl = new THREE.TransformControls(camera, renderer.domElement);
 				//transformControl.setTranslationSnap( 100 );
 				//transformControl.setRotationSnap( THREE.Math.degToRad( 15 ) );
-				transformControl.addEventListener( 'change', render );
+				transformControl.addEventListener('change', render);
 				scene.add(transformControl);
 				
 				orbitViewControl = new THREE.OrbitControls(camera, renderer.domElement);
@@ -93,7 +93,7 @@ var particleMaterial;
 				var zCount = 4;
 				
 				boxMaterial = new THREE.MeshBasicMaterial({ 
-					 map: new THREE.TextureLoader().load("img/box.gif"), 
+					 map: new THREE.TextureLoader().load("img/box.png"), 
 					 side:THREE.DoubleSide 
 				}); 
 				 
@@ -103,7 +103,7 @@ var particleMaterial;
 							var boxGeometry = new THREE.BoxBufferGeometry(2, 1, 1); 
 
 							boxMesh = new THREE.Mesh(boxGeometry, boxMaterial); 
-							boxMesh.position.set(2 * (i - 3), j + 0.5, -0.5 - k); 
+							boxMesh.position.set(2 * (i - 3 + Math.random() * 10), j + 0.5 + Math.random(), -0.5 - k - Math.random()*10); 
 							scene.add(boxMesh); 
 
 							objects.push( boxMesh );
@@ -240,6 +240,7 @@ var particleMaterial;
 			}
 
 			function render(){
+				transformControl.update();
 				renderer.render(scene, camera);
 				requestAnimationFrame(render);
 			}
